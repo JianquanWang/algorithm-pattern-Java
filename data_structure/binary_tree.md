@@ -13,6 +13,7 @@
 - 以根访问顺序决定是什么遍历
 - 左子树都是优先右子树
 #### 树结构
+
 ```java
 public class TreeNode {
 	int val;

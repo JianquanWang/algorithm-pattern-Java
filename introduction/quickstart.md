@@ -11,42 +11,26 @@
 
 示例 1
 
-[strStr](https://leetcode-cn.com/problems/implement-strstr/)
+[strStr](https://leetcode.com/problems/implement-strstr/)
 
 > 给定一个  haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从 0 开始)。如果不存在，则返回  -1。
 
-思路：核心点遍历给定字符串字符，判断以当前字符开头字符串是否等于目标字符串
+思路：核心点遍历给定字符串字符，判断以当前字符开头字符串是否等于目标字符串, 也可以用 KMP 算法 (较难)
 
-```go
-func strStr(haystack string, needle string) int {
-    if len(needle) == 0 {
-        return 0
-    }
-    var i, j int
-    // i不需要到len-1
-    for i = 0; i < len(haystack)-len(needle)+1; i++ {
-        for j = 0; j < len(needle); j++ {
-            if haystack[i+j] != needle[j] {
-                break
-            }
-        }
-        // 判断字符串长度是否相等
-        if len(needle) == j {
-            return i
-        }
-    }
-    return -1
+```java
+public int strStr(String haystack, String needle) {
+  return haystack.indexOf(needle);
 }
 ```
 
 需要注意点
 
-- 循环时，i 不需要到 len-1
+- 循环时，i 不需要到 lenth() - 1
 - 如果找到目标字符串，len(needle)==j
 
 示例 2
 
-[subsets](https://leetcode-cn.com/problems/subsets/)
+[subsets](https://leetcode.com/problems/subsets/)
 
 > 给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
 
@@ -68,30 +52,28 @@ func backtrack(选择列表,路径):
 
 答案代码
 
-```go
-func subsets(nums []int) [][]int {
-    // 保存最终结果
-    result := make([][]int, 0)
-    // 保存中间结果
-    list := make([]int, 0)
-    backtrack(nums, 0, list, &result)
-    return result
-}
-
-// nums 给定的集合
-// pos 下次添加到集合中的元素位置索引
-// list 临时结果集合(每次需要复制保存)
-// result 最终结果
-func backtrack(nums []int, pos int, list []int, result *[][]int) {
-    // 把临时结果复制出来保存到最终结果
-    ans := make([]int, len(list))
-    copy(ans, list)
-    *result = append(*result, ans)
-    // 选择、处理结果、再撤销选择
-    for i := pos; i < len(nums); i++ {
-        list = append(list, nums[i])
-        backtrack(nums, i+1, list, result)
-        list = list[0 : len(list)-1]
+```java
+class Solution {
+    
+    public List<List<Integer>> subsets(int[] nums) {
+        // 保存最终结果
+        List<List<Integer>> res = new ArrayList<>();
+        // 保存中间结果
+        List<Integer> list = new ArrayList<>();
+        backtrack(nums, 0, list, res);
+        return res;
+    }
+    
+    private void backtrack(int[] nums, int pos, List<Integer> list, List<List<Integer>> result){
+        // 把临时结果复制出来保存到最终结果
+        List<Integer> ans = new ArrayList<>(list);
+        result.add(ans);
+        // 选择、处理结果、再撤销选择
+        for (int i = pos; i < nums.length; i++) {
+            list.add(nums[i]);
+            backtrack(nums, i+1, list, result);
+            list.remove(list.size()-1);
+        }
     }
 }
 ```
@@ -108,9 +90,9 @@ func backtrack(nums []int, pos int, list []int, result *[][]int) {
   - 命名尽量简洁明了，尽量不用数字命名如：i1、node1、a1、b2
 - 常见错误总结
   - 访问下标时，不能访问越界
-  - 空值 nil 问题 run time error
+  - 空值问题 run time error
 
 ## 练习
 
-- [ ] [strStr](https://leetcode-cn.com/problems/implement-strstr/)
-- [ ] [subsets](https://leetcode-cn.com/problems/subsets/)
+- [x] [strStr](https://leetcode-cn.com/problems/implement-strstr/)
+- [x] [subsets](https://leetcode-cn.com/problems/subsets/)
