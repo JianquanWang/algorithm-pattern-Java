@@ -12,6 +12,7 @@
 
 - 以根访问顺序决定是什么遍历
 - 左子树都是优先右子树
+
 #### 树结构
 
 ```java
@@ -696,12 +697,77 @@ class Solution {
 
 ## 练习
 
-- [ ] [maximum-depth-of-binary-tree](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
-- [ ] [balanced-binary-tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
-- [ ] [binary-tree-maximum-path-sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+- [x] [maximum-depth-of-binary-tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+
+  ```java
+  class Solution {
+      
+      public int maxDepth(TreeNode root) {
+          if(root == null) return 0;
+          return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+      } 
+  }
+  ```
+
+  
+
+- [x] [balanced-binary-tree](https://leetcode.com/problems/balanced-binary-tree/)
+
+  ```java
+  class Solution {
+      public boolean isBalanced(TreeNode root) {
+          if(root == null) return true;
+          if(Math.abs(maxDepth(root.left)-maxDepth(root.right)) <= 1) {
+              return isBalanced(root.left) && isBalanced(root.right);
+          } else {
+              return false;
+          }
+      }
+      
+      private int maxDepth(TreeNode node){
+          if (node == null) return 0;
+          return 1 + Math.max(maxDepth(node.left), maxDepth(node.right));
+      }
+  }
+  ```
+
+  
+
+- [x] [binary-tree-maximum-path-sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
+
+  ```java
+  class Solution {
+      private int maxSum = Integer.MIN_VALUE;
+      public int maxPathSum(TreeNode root) {
+          if(root == null) return 0;
+          
+          maxSubTree(root);
+          return maxSum;
+      }
+      private int maxSubTree(TreeNode root){
+          if (root == null) return 0;
+          int left = maxSubTree(root.left);
+          int right = maxSubTree(root.right);
+          int maxReturn = Math.max(root.val, Math.max(left+root.val, right+root.val));
+          maxSum = Math.max(Math.max(maxSum, left+root.val+right), maxReturn);
+          return maxReturn;
+          
+      }
+      
+      
+  }
+  ```
+
+  
+
 - [ ] [lowest-common-ancestor-of-a-binary-tree](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
 - [ ] [binary-tree-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
 - [ ] [binary-tree-level-order-traversal-ii](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
+
 - [ ] [binary-tree-zigzag-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+
 - [ ] [validate-binary-search-tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
 - [ ] [insert-into-a-binary-search-tree](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
